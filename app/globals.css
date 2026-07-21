@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — the single source of truth for color across the site.
+ * Every semantic accent below is one of the "actors" that recurs across
+ * chapters (see devxdocs/plan.md "Reuses" notes): user-mode vs kernel-mode,
+ * the active signal/pointer, danger (blocked/segfault), success (unlocked).
+ * Tailwind v4 turns every --color-* token here into utilities automatically
+ * (bg-void, text-ink, fill-kernel, border-signal, etc).
+ */
+@theme {
+  --color-void: #06070a;
+  --color-surface: #0d0f14;
+  --color-surface-raised: #161a21;
+
+  --color-ink: #f4f5f7;
+  --color-ink-dim: #8b93a1;
+  --color-ink-faint: #4b515c;
+
+  --color-user: #22d3ee;
+  --color-kernel: #c084fc;
+  --color-signal: #fbbf24;
+  --color-danger: #fb7185;
+  --color-success: #4ade80;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Subtle technical backdrop used behind pinned scenes — a faint circuit grid, never a distraction. */
+.bg-circuit {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Soft vignette to keep edges of a pinned scene from feeling flat. */
+.bg-vignette {
+  background: radial-gradient(ellipse at center, transparent 0%, transparent 55%, var(--color-void) 100%);
+}

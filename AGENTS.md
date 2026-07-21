@@ -1,3 +1,8 @@
+> **This project uses Next.js 16 + React 19 + Tailwind v4.** APIs/conventions may differ from
+> older training data (e.g. route `params` are async, Tailwind v4 config is CSS-based via
+> `@theme` in `globals.css`, not `tailwind.config.js`). Check `node_modules/next/dist/docs/`
+> before assuming an older Next.js pattern is correct.
+
 # cpu.land — Animated Rebuild
 
 Rebuilding https://cpu.land ("Putting the 'You' in CPU" by Lexi Mattick / Hack Club) as a fully
