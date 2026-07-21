@@ -6,9 +6,10 @@ import { ROUND_ROBIN_PROCESS_COUNT } from "./Diagram";
 /**
  * The cycle builds itself one turn at a time, just like fetch-execute-cycle
  * steps through bytes with labels: each wide run-block grows in from the
- * left (a process gets the CPU), then a thin scheduler sliver flashes on
- * (the brief, cheap switch) before the next process's turn — three turns
- * in total. Only once the whole cycle is drawn do the timeslice and target
+ * left (a process gets the CPU) and gets its "P1/P2/P3" label right away —
+ * not just a generic block — then a thin scheduler sliver flashes on (the
+ * brief, cheap switch) before the next process's turn — three turns in
+ * total. Only once the whole cycle is drawn do the timeslice and target
  * latency brackets fade in to name what was just shown.
  */
 export function useRoundRobinAnimation(scope: RefObject<HTMLElement | null>) {
@@ -16,6 +17,7 @@ export function useRoundRobinAnimation(scope: RefObject<HTMLElement | null>) {
     () => {
       gsap.set('[data-role="run-block"]', { scaleX: 0, transformOrigin: "0% 50%" });
       gsap.set('[data-role="sliver"]', { opacity: 0 });
+      gsap.set('[data-role="run-block-label"]', { opacity: 0 });
       gsap.set('[data-role="timeslice-label"], [data-role="latency-label"]', { opacity: 0 });
     },
     { scope },
@@ -30,6 +32,11 @@ export function useRoundRobinAnimation(scope: RefObject<HTMLElement | null>) {
           duration: 0.5,
           ease: "power2.out",
         })
+          .to(
+            `[data-role="run-block-label"][data-index="${i}"]`,
+            { opacity: 1, duration: 0.25 },
+            "<0.25",
+          )
           .to(
             `[data-role="sliver"][data-index="${i}"]`,
             { opacity: 1, duration: 0.2 },

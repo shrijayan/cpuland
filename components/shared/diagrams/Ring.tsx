@@ -38,7 +38,7 @@ export function Ring({ className = "" }: RingProps) {
 
       <text
         x="200"
-        y="34"
+        y="18"
         textAnchor="middle"
         className="fill-ink-dim font-mono text-[13px] tracking-wide"
       >
@@ -46,7 +46,7 @@ export function Ring({ className = "" }: RingProps) {
       </text>
       <text
         x="200"
-        y="246"
+        y="310"
         textAnchor="middle"
         className="fill-kernel font-mono text-[11px] tracking-wide"
       >

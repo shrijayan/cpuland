@@ -16,17 +16,18 @@ const BADGE_POP_DURATION = 0.4;
 
 /**
  * `child-box` starts stacked exactly on top of `process-box` (same grid
- * cell in the Diagram) and invisible. Scroll first slides it out to the
- * right while it fades in — one process splitting into two — then pops
- * each box's `fork()` return value in underneath it: the parent sees the
- * new child's PID, the child sees 0. `child-badge` is snapped (zero
- * duration) into its final position the instant the split lands, so its
- * later pop-in is a pure scale/opacity reveal with no visible drift.
+ * cell in the Diagram) and invisible. Scroll first slides the whole
+ * `child-column` (box + badge together, so they move the same actual
+ * distance regardless of their different widths) out to the right while
+ * the box fades in — one process splitting into two — then pops each
+ * box's `fork()` return value in underneath it: the parent sees the new
+ * child's PID, the child sees 0.
  */
 export function useForkCloneAnimation(scope: RefObject<HTMLElement | null>) {
   useGSAP(
     () => {
-      gsap.set('[data-role="child-box"]', { opacity: 0, xPercent: 0 });
+      gsap.set('[data-role="child-column"]', { xPercent: 0 });
+      gsap.set('[data-role="child-box"]', { opacity: 0 });
       gsap.set('[data-role="parent-badge"], [data-role="child-badge"]', {
         opacity: 0,
         scale: 0.6,
@@ -39,13 +40,12 @@ export function useForkCloneAnimation(scope: RefObject<HTMLElement | null>) {
   useScrollTimeline(
     scope,
     (tl) => {
-      tl.to('[data-role="child-box"]', {
+      tl.to('[data-role="child-column"]', {
         ...CHILD_OFFSET,
-        opacity: 1,
         duration: SPLIT_DURATION,
         ease: EASE.enter,
       })
-        .set('[data-role="child-badge"]', CHILD_OFFSET)
+        .to('[data-role="child-box"]', { opacity: 1, duration: SPLIT_DURATION, ease: EASE.enter }, "<")
         .addLabel("split")
         .to(
           '[data-role="parent-badge"]',

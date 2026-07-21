@@ -59,7 +59,7 @@ export function SyscallDiagram() {
       </text>
       <text
         x={RING_CENTER.x}
-        y={RING_CENTER.y + 5}
+        y={RING_CENTER.y + RING_INNER_R + 20}
         textAnchor="middle"
         className="fill-kernel font-mono text-[11px] tracking-wide"
       >

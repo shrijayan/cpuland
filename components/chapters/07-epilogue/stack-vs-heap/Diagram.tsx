@@ -17,16 +17,16 @@ interface MemoryPanelProps {
 
 /**
  * Shared chrome for one half of the split screen: a small-caps label above
- * a column pinned to either the top (stack) or bottom (heap) of the
- * available height, leaving the rest of the panel as the "room to grow
- * into" that the diagram is illustrating.
+ * a column pinned to either the top (stack) or bottom (heap) of a shared,
+ * fixed-height box — not the full panel height — so both halves read as
+ * one compact diagram instead of drifting to opposite ends of the screen.
  */
 function MemoryPanel({ label, justify, children }: MemoryPanelProps) {
   return (
-    <div className="flex h-full w-full max-w-40 flex-col items-center gap-3">
+    <div className="flex w-full max-w-40 flex-col items-center gap-3">
       <span className="font-mono text-xs tracking-[0.2em] text-user uppercase">{label}</span>
       <div
-        className={`flex w-full flex-1 flex-col ${justify === "start" ? "justify-start" : "justify-end"}`}
+        className={`flex h-64 w-full flex-col sm:h-80 ${justify === "start" ? "justify-start" : "justify-end"}`}
       >
         {children}
       </div>
@@ -45,7 +45,7 @@ function MemoryPanel({ label, justify, children }: MemoryPanelProps) {
  */
 export function StackVsHeapDiagram() {
   return (
-    <div className="flex h-full w-full items-stretch justify-center gap-10 px-8 py-14 sm:gap-20 sm:px-16">
+    <div className="flex h-full w-full items-center justify-center gap-10 px-8 sm:gap-20 sm:px-16">
       <MemoryPanel label="Stack" justify="start">
         <div className="flex flex-col gap-2">
           {stackFrameIndices.map((index) => (

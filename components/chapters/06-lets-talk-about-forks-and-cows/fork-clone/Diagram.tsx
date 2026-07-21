@@ -26,7 +26,7 @@ export function ForkCloneDiagram() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-5">
+        <div data-role="child-column" className="flex flex-col items-center gap-5">
           <div data-role="child-box" className={BOX_STYLE}>
             process
           </div>

@@ -6,14 +6,24 @@
  */
 
 /**
- * How much *extra* scroll distance (relative to the pinned section's own
- * height) a scene needs before it releases to the next one. Longer runway
- * means more sub-steps can play out in the same animation before it ends.
+ * Total scroll distance (as a percentage of the pinned section's own height)
+ * for which a scene stays pinned before releasing to the next one. Longer
+ * runway means more sub-steps can play out in the same animation.
+ *
+ * IMPORTANT: because `useScrollTimeline` uses a string `start: "top top"`,
+ * GSAP's ScrollTrigger resolves a relative `end: "+=X%"` as `X% of the
+ * trigger's own height` ADDED TO the start scroll position — it does NOT
+ * implicitly add the trigger's own 100% height first. So these values must
+ * already include that base 100% (100% = "just as long as the section is
+ * tall, no extra pin time") or the pin will release far too early while the
+ * spacer (sized for start + this same distance) still reserves the full
+ * amount, leaving a dead gap where content has already frozen but the next
+ * scene hasn't started yet.
  */
 export const SCROLL_RUNWAY = {
-  short: "+=60%",
-  medium: "+=140%",
-  long: "+=260%",
+  short: "+=160%",
+  medium: "+=240%",
+  long: "+=360%",
 } as const;
 
 export type ScrollRunway = keyof typeof SCROLL_RUNWAY;

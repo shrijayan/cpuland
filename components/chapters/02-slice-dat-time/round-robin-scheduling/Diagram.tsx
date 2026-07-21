@@ -83,6 +83,21 @@ export function RoundRobinDiagram() {
           />
         ))}
 
+        {SEGMENTS.filter((segment) => segment.role === "run-block").map((segment) => (
+          <text
+            key={`label-${segment.index}`}
+            data-role="run-block-label"
+            data-index={segment.index}
+            x={segment.x + segment.width / 2}
+            y={ROW_Y + ROW_HEIGHT / 2}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="fill-void font-mono text-[13px] font-bold"
+          >
+            P{segment.index + 1}
+          </text>
+        ))}
+
         <g data-role="timeslice-label">
           <path
             d={bracketPath(MARGIN_X, MARGIN_X + BLOCK_WIDTH, TIMESLICE_BRACKET_Y)}
