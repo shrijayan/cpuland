@@ -78,12 +78,16 @@ a new one rather than inventing a new shape.
 
 - [x] Chapter 0 — Intro (2 sections)
 - [x] Chapter 1 — The Basics (6 sections)
-- [ ] Chapter 2 — Multitasking (4 sections)
-- [ ] Chapter 3 — Exec (5 sections)
-- [ ] Chapter 4 — ELF (5 sections)
-- [ ] Chapter 5 — Paging (6 sections)
-- [ ] Chapter 6 — Fork & COW (5 sections)
-- [ ] Chapter 7 — Epilogue (2 sections)
+- [x] Chapter 2 — Multitasking (4 sections)
+- [x] Chapter 3 — Exec (5 sections)
+- [x] Chapter 4 — ELF (5 sections)
+- [x] Chapter 5 — Paging (6 sections)
+- [x] Chapter 6 — Fork & COW (5 sections)
+- [x] Chapter 7 — Epilogue (2 sections)
+
+All 35 scenes are built and wired into `app/page.tsx` in order. `npm run build`, `npm run lint`,
+and `npx tsc --noEmit` all pass clean. Remaining work is polish/tuning (see agentlog.md), not
+missing scenes.
 
 ---
 
@@ -154,23 +158,23 @@ a new one rather than inventing a new shape.
 
 ## Chapter 2 — Multitasking
 
-### 1. `single-core-problem`
+### 1. `single-core-problem` — done
 - **Caption:** "One CPU core. Many programs. A trick is needed."
 - **Animation:** One CPU box, three program icons queued beside it, all wanting the CPU
   at once (impatient bouncing).
 
-### 2. `hardware-interrupt-timer`
+### 2. `hardware-interrupt-timer` — done
 - **Caption:** "A timer chip interrupts, no matter what."
 - **Animation:** A ticking timer-chip icon sends a pulse into the CPU mid-execution of program
   code, forcing a jump to kernel code. (Reuses: ring-jump visual language from Ch.1.)
 
-### 3. `round-robin-scheduling`
+### 3. `round-robin-scheduling` — done
 - **Caption:** "Everyone gets a slice of time."
 - **Animation:** The big one. A horizontal timeline builds left-to-right as you scroll: 3
   process blocks cycle in turn, a thin "kernel scheduler" sliver between each, with
   "timeslice (2ms)" and "target latency (6ms)" brackets drawing in underneath.
 
-### 4. `preemption-loop`
+### 4. `preemption-loop` — done
 - **Caption:** "Interrupt. Save. Switch. Resume."
 - **Animation:** A circular 4-step flow diagram animates one full rotation: set timer → run
   program → timer fires → switch — looping back to where `round-robin-scheduling` left off.
@@ -179,28 +183,28 @@ a new one rather than inventing a new shape.
 
 ## Chapter 3 — Exec
 
-### 1. `execve-intro`
+### 1. `execve-intro` — done
 - **Caption:** "execve() replaces a program... with another program."
 - **Animation:** A process box containing "code A"; execve() is called; code A fades out and
   code B fades in *inside the same box* (a replacement, not an addition).
 
-### 2. `exec-flow-binfmt`
+### 2. `exec-flow-binfmt` — done
 - **Caption:** "The kernel tries format after format until one fits."
 - **Animation:** User-space → kernel-space flowchart. `./file.bin` → `execve()` syscall →
   arrow crosses into kernel space → a keyring metaphor: the kernel tries keys (binfmt
   handlers) on a lock one at a time until one turns.
 
-### 3. `binprm-buffer-shebang`
+### 3. `binprm-buffer-shebang` — done
 - **Caption:** "Only the first 256 bytes matter here."
 - **Animation:** A byte array representing a file; the first 256 bytes glow and stay, the rest
   fade to gray and visually fall off the edge of the screen.
 
-### 4. `shebang-argv-rewrite`
+### 4. `shebang-argv-rewrite` — done
 - **Caption:** "Scripts quietly rewrite their own arguments."
 - **Animation:** An `argv` array of chips `[./script, A, B, C]`. Chip 0 is removed; new chips
   (interpreter path, interpreter args) slide in from the left; remaining args shift right.
 
-### 5. `shell-fallback`
+### 5. `shell-fallback` — done
 - **Caption:** "No shebang? Your shell just guesses: 'it's a script.'"
 - **Animation:** execve fails (red X) → shell icon shrugs → retries by wrapping the file with
   itself as interpreter → succeeds (green check).
@@ -209,29 +213,29 @@ a new one rather than inventing a new shape.
 
 ## Chapter 4 — ELF
 
-### 1. `elf-file-structure`
+### 1. `elf-file-structure` — done
 - **Caption:** "Every binary has the same 4 building blocks."
 - **Animation:** The big one. 4 stacked blocks assemble in sequence — ELF Header, Program
   Header Table, Section Header Table, Data — then arrows draw from PHT/SHT into the Data
   block (exploded-view style).
 
-### 2. `program-header-types`
+### 2. `program-header-types` — done
 - **Caption:** "The header table says what to load, and where."
 - **Animation:** The PHT block from the previous section expands into 4 rows (`PT_LOAD`,
   `PT_NOTE`, `PT_DYNAMIC`, `PT_INTERP`), each gaining a small icon.
 
-### 3. `section-header-map`
+### 3. `section-header-map` — done
 - **Caption:** "The section table is a map, mostly for debuggers."
 - **Animation:** Treasure-map metaphor — an old map unrolls, islands labeled `.text`, `.data`,
   `.bss`, `.shstrtab` appear with a compass rose; camera pans across it.
 
-### 4. `static-vs-dynamic-linking`
+### 4. `static-vs-dynamic-linking` — done
 - **Caption:** "Copy the library in — or borrow it live."
 - **Animation:** Split screen. Left (static): function `foo`'s code is physically copied into
   two separate program boxes. Right (dynamic): two program boxes hold only a name-tag `foo`,
   with arrows pointing out to one shared `foo` box.
 
-### 5. `elf-execution`
+### 5. `elf-execution` — done
 - **Caption:** "Load the segments into memory. Jump. Go."
 - **Animation:** `PT_LOAD` blocks fly from the file into a memory strip (reuses the
   memory-tape component from Ch.1); the instruction pointer lands on the entry point and the
@@ -241,35 +245,35 @@ a new one rather than inventing a new shape.
 
 ## Chapter 5 — Paging
 
-### 1. `mmu-translation`
+### 1. `mmu-translation` — done
 - **Caption:** "Every address you use is a lie the MMU tells."
 - **Animation:** The CPU asks an MMU "librarian" character to translate an address; the MMU
   flips through a dictionary and returns a different address — the hex value visibly morphs
   as it passes through the MMU box.
 
-### 2. `page-size-breakdown`
+### 2. `page-size-breakdown` — done
 - **Caption:** "Only the top bits get translated. The rest stay put."
 - **Animation:** A 64-bit address bar; the lowest 12 bits highlight separately (untouched page
   offset) while the upper bits pass through the MMU box and morph, then recombine.
 
-### 3. `process-isolation-mapping`
+### 3. `process-isolation-mapping` — done
 - **Caption:** "Same address. Two processes. Different memory."
 - **Animation:** Two process boxes both point at virtual address `0x400000`; arrows diverge
   into two separate spots inside one shared physical-memory strip.
 
-### 4. `higher-half-kernel`
+### 4. `higher-half-kernel` — done
 - **Caption:** "Half the address space always belongs to the kernel."
 - **Animation:** A long horizontal bar splits at the midpoint — user space / kernel space. A
   user-mode dot tries to cross into kernel space and is blocked. (Reuses: ring-block visual
   language from Ch.1.)
 
-### 5. `hierarchical-page-table`
+### 5. `hierarchical-page-table` — done
 - **Caption:** "A 4-level tree, so empty memory costs nothing."
 - **Animation:** The big one. A tree grows top-down, one level per scroll step: level 4 table
   → indexed by address bits → points to a level 3 table → ... → level 1 → points into a 4 KiB
   RAM block. Relevant address bits highlight as each level is indexed.
 
-### 6. `page-fault-demand-paging`
+### 6. `page-fault-demand-paging` — done
 - **Caption:** "Missing memory? Fault, fetch, retry."
 - **Animation:** 3-panel comic, scroll-scrubbed: (1) CPU requests an address, MMU is confused
   → page-fault lightning bolt (2) kernel loads data from disk into RAM (3) MMU says "here's
@@ -279,29 +283,29 @@ a new one rather than inventing a new shape.
 
 ## Chapter 6 — Fork & COW
 
-### 1. `fork-clone`
+### 1. `fork-clone` — done
 - **Caption:** "fork() clones a process. Now there are two."
 - **Animation:** One process box splits into two identical boxes (cell-mitosis style), labeled
   "parent" and "child." A return-value badge shows `0` on the child, the child's PID on the
   parent.
 
-### 2. `fork-exec-pattern`
+### 2. `fork-exec-pattern` — done
 - **Caption:** "Clone yourself. Then become someone else."
 - **Animation:** Continues from `fork-clone` — the child box immediately morphs (execve) into
   a new program icon. (Ties back to Ch.3's `execve-intro` replace animation.)
 
-### 3. `copy-on-write`
+### 3. `copy-on-write` — done
 - **Caption:** "Both share memory... until either one writes."
 - **Animation:** Parent + child page-table arrows both point to one shared, locked
   (read-only) physical memory block. The moment either process writes, the block splits into
   two separate writable copies (mitosis again, this time for a single memory page).
 
-### 4. `init-process-tree`
+### 4. `init-process-tree` — done
 - **Caption:** "One process started it all: init."
 - **Animation:** A single root node "init" at the top; a tree grows downward/outward live as
   new process nodes fork off, building an org chart in front of you.
 
-### 5. `boot-sequence`
+### 5. `boot-sequence` — done
 - **Caption:** "Firmware, bootloader, kernel, then you."
 - **Animation:** A 4-stage relay-race handoff: motherboard firmware passes a baton to the
   bootloader, which passes to the kernel, which passes to init — each stage steps in as the
@@ -311,13 +315,13 @@ a new one rather than inventing a new shape.
 
 ## Chapter 7 — Epilogue
 
-### 1. `stack-vs-heap`
+### 1. `stack-vs-heap` — done
 - **Caption:** "The stack grows down. The heap grows on request."
 - **Animation:** Split screen. Left: stack — fixed high address, frames pushing/popping like
   stacked blocks. Right: heap — grows as `malloc` is called, managed by libc, which
   occasionally calls out to `mmap`/`sbrk`.
 
-### 2. `closing`
+### 2. `closing` — done
 - **Caption:** "You now know what your computer is doing."
 - **Animation:** Reverse of Ch.0's zoom-in — pull back from the CPU die, out through the
   motherboard, out through the screen, to a minimal credits fade (author + Hack Club).
